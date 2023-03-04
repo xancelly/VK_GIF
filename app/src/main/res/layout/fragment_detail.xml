@@ -20,7 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:text="500"
+        android:fontFamily="@font/helvetica_light"
+        android:textSize="11sp"
         app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/gifImageView" />
 
@@ -31,6 +32,8 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:text="x"
+        android:fontFamily="@font/helvetica_light"
+        android:textSize="11sp"
         app:layout_constraintEnd_toStartOf="@+id/gifWidthTextView"
         app:layout_constraintTop_toBottomOf="@+id/gifImageView" />
 
@@ -40,7 +43,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
-        android:text="300"
+        android:fontFamily="@font/helvetica_light"
+        android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gifImageView" />
 
@@ -49,8 +53,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:text="Art by way of the the"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/helvetica_bold"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -59,8 +64,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:text="Дата размещения: "
+        android:layout_marginTop="10dp"
+        android:text="Дата размещения"
+        android:fontFamily="@font/helvetica_regular"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/authorAvatarImageView" />
 
@@ -69,7 +76,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/helvetica_regular"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/authorAvatarImageView" />
 
@@ -88,6 +97,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
+        android:fontFamily="@font/helvetica_regular"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/authorAvatarImageView"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 

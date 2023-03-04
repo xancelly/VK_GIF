@@ -15,19 +15,27 @@ import javax.inject.Inject
 class SearchViewModel
 @Inject
 constructor(private val giphyRepository: GiphyRepository): ViewModel() {
+    private var lastSearchQuery: String? = null
     private val searchResponse = MutableLiveData<GifImage>()
 
     val search: LiveData<GifImage>
         get() = searchResponse
 
-    init {
-        getGifsBySearch("programming", 0)
-    }
-
     private fun getGifsBySearch(search: String, offset: Int) = viewModelScope.launch {
-        giphyRepository.getGifBySearch(search = search, offset = offset).let { resp ->
+        if (lastSearchQuery == search) {
+            val currentGifs = searchResponse.value
+            currentGifs?.let {
+                val newData = giphyRepository.getGifBySearch(search = search, offset = offset).body()?.data
+                newData?.let {
+                    val updatedData = it + currentGifs.data
+                    searchResponse.postValue(currentGifs.copy(data = updatedData))
+                }
+            }
+        } else {
+            val resp = giphyRepository.getGifBySearch(search = search, offset = offset)
             if (resp.isSuccessful) {
                 searchResponse.postValue(resp.body())
+                lastSearchQuery = search
                 Log.i("getGifs", resp.message())
             } else {
                 Log.e("getGifs", resp.message())

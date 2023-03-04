@@ -19,11 +19,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
 
-    private var recyclerViewState: Parcelable? = null
     private var searchBinding: FragmentSearchBinding? = null
     private val binding get() = searchBinding!!
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchAdapter
+    private var currentOffset = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,25 +41,18 @@ class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
             adapter = searchAdapter
         }
 
-        observeData()
-
-        val searchEditText = view.findViewById<EditText>(R.id.searchEditText)
-        val searchButton = view.findViewById<Button>(R.id.searchButton)
-        searchButton.setOnClickListener {
-            getGifBySearch(searchEditText.text.toString(), 0)
-        }
-    }
-
-    private fun getGifBySearch(search: String, offset: Int) {
-        viewModel.getGifsBySearchResult(search, offset)
-    }
-
-    private fun observeData() {
         viewModel.search.observe(viewLifecycleOwner) { result ->
             searchAdapter.gifList = result.data
-            recyclerViewState?.let {
-                binding.gifsRecyclerView.layoutManager?.onRestoreInstanceState(it)
-            }
+        }
+
+        binding.searchButton.setOnClickListener {
+            currentOffset = 0
+            viewModel.getGifsBySearchResult(binding.searchEditText.text.toString(), currentOffset)
+        }
+
+        binding.nextPage.setOnClickListener {
+            currentOffset += 25
+            viewModel.getGifsBySearchResult(binding.searchEditText.text.toString(), currentOffset)
         }
     }
 
