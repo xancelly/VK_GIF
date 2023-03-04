@@ -1,12 +1,11 @@
 package com.example.vkgif.domain.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class User(
     val avatar_url: String,
-    val description: String,
     val display_name: String,
-    val instagram_url: String,
-    val is_verified: Boolean,
     val profile_url: String,
-    val username: String,
-    val website_url: String
-)
+): Parcelable

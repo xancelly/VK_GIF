@@ -25,8 +25,7 @@
             app:destination="@id/searchFragment"
             app:popUpTo="@id/searchFragment" />
         <argument
-            android:name="id"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:name="data"
+            app:argType="com.example.vkgif.domain.models.Data" />
     </fragment>
 </navigation>

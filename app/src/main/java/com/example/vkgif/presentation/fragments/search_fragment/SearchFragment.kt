@@ -2,6 +2,7 @@ package com.example.vkgif.presentation.fragments.search_fragment
 
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +10,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.vkgif.R
 import com.example.vkgif.databinding.FragmentSearchBinding
+import com.example.vkgif.domain.models.Data
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
 
     private var searchBinding: FragmentSearchBinding? = null
     private val binding get() = searchBinding!!
@@ -46,7 +49,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun observeData() {
-        searchAdapter = SearchAdapter()
+        searchAdapter = SearchAdapter(this)
         binding.gifsRecyclerView.apply {
             adapter = searchAdapter
         }
@@ -58,5 +61,14 @@ class SearchFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         searchBinding = null
+    }
+
+    override fun onItemClick(data: Data) {
+        try {
+            val direction = SearchFragmentDirections.actionSearchFragmentToDetailFragment(data)
+            findNavController().navigate(direction)
+        } catch (e: Exception) {
+            Log.e("SearchFragment", "Error navigating to DetailFragment: ${e.message}" , e)
+        }
     }
 }
