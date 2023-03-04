@@ -53,11 +53,11 @@ class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
     }
 
     private fun getGifBySearch(search: String, offset: Int) {
-        viewModel.updateGifs(search, offset)
+        viewModel.getGifsBySearchResult(search, offset)
     }
 
     private fun observeData() {
-        viewModel.searchResponse.observe(viewLifecycleOwner) { result ->
+        viewModel.search.observe(viewLifecycleOwner) { result ->
             searchAdapter.gifList = result.data
             recyclerViewState?.let {
                 binding.gifsRecyclerView.layoutManager?.onRestoreInstanceState(it)
