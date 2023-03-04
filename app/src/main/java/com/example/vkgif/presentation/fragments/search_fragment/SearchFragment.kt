@@ -1,6 +1,7 @@
 package com.example.vkgif.presentation.fragments.search_fragment
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.Editable
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vkgif.R
 import com.example.vkgif.databinding.FragmentSearchBinding
 import com.example.vkgif.domain.models.Data
@@ -19,11 +21,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
 
+    private var recyclerViewState: Parcelable? = null
     private var searchBinding: FragmentSearchBinding? = null
     private val binding get() = searchBinding!!
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +37,12 @@ class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        searchAdapter = SearchAdapter(this)
+        binding.gifsRecyclerView.apply {
+            adapter = searchAdapter
+        }
+
         observeData()
 
         val searchEditText = view.findViewById<EditText>(R.id.searchEditText)
@@ -49,12 +57,11 @@ class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
     }
 
     private fun observeData() {
-        searchAdapter = SearchAdapter(this)
-        binding.gifsRecyclerView.apply {
-            adapter = searchAdapter
-        }
         viewModel.searchResponse.observe(viewLifecycleOwner) { result ->
             searchAdapter.gifList = result.data
+            recyclerViewState?.let {
+                binding.gifsRecyclerView.layoutManager?.onRestoreInstanceState(it)
+            }
         }
     }
 

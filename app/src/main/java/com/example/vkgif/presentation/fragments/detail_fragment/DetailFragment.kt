@@ -1,6 +1,7 @@
 package com.example.vkgif.presentation.fragments.detail_fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,13 +48,17 @@ class DetailFragment : Fragment() {
             Glide.with(binding.root)
                 .load(data.images.original.url)
                 .into(gifImageView)
-            Glide.with(binding.root)
-                .load(data.user.avatar_url)
-                .into(authorAvatarImageView)
+            if (data.user != null) {
+                Glide.with(binding.root)
+                    .load(data.user!!.avatar_url)
+                    .into(authorAvatarImageView)
+            } else {
+                authorAvatarImageView.visibility = View.GONE
+            }
             gifWidthTextView.text = data.images.original.width
             gifHeightTextView.text = data.images.original.height
             titleTextView.text = data.title
-            usernameTextView.text = data.user.display_name
+            usernameTextView.text = data.username
             importDataTextView.text = data.import_datetime
         }
     }

@@ -11,5 +11,6 @@ data class Data(
     val import_datetime: String,
     val title: String,
     val url: String,
-    val user: User
+    val username: String,
+    val user: User?
 ): Parcelable
