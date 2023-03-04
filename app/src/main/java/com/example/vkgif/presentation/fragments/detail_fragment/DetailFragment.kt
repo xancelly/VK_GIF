@@ -1,16 +1,14 @@
 package com.example.vkgif.presentation.fragments.detail_fragment
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.example.vkgif.R
 import com.example.vkgif.databinding.FragmentDetailBinding
 import com.example.vkgif.domain.models.Data
 

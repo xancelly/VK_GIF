@@ -1,7 +1,6 @@
 package com.example.vkgif.data.repository
 
 import com.example.vkgif.data.api.GiphyApi
-import com.example.vkgif.domain.models.Data
 import com.example.vkgif.domain.models.GifImage
 import com.example.vkgif.domain.repository.GiphyRepository
 import retrofit2.Response

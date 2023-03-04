@@ -2,18 +2,12 @@ package com.example.vkgif.presentation.fragments.search_fragment
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.ExpandableListView.OnChildClickListener
-import android.widget.ImageView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.vkgif.R
-import com.example.vkgif.databinding.FragmentSearchBinding
 import com.example.vkgif.databinding.GifItemBinding
 import com.example.vkgif.domain.models.Data
 
