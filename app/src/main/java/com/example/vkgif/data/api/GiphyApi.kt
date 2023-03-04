@@ -10,7 +10,6 @@ import retrofit2.http.Query
 interface GiphyApi {
     @GET("search?api_key=${API_KEY}&limit=25")
     suspend fun getGifBySearch(@Query("q") search: String, @Query("offset") offset: Int) : Response<GifImage>
-
     @GET("{id}?api_key=${API_KEY}")
-    suspend fun getGifInfoById(@Path("id") id: String): Response<GifImage>
+    suspend fun getGifInfoById(@Path("id") id: Int): Response<GifImage>
 }

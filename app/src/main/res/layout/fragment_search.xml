@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.detail_fragment.SearchFragment"
+    tools:context=".presentation.fragments.search_fragment.SearchFragment"
     android:background="#00FF">
 
     <EditText
@@ -44,6 +44,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/searchEditText"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:spanCount="2"
+        tools:itemCount="25"
+        tools:listitem="@layout/gif_item"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
