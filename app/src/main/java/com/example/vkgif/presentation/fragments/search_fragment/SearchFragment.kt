@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vkgif.databinding.FragmentSearchBinding
 import com.example.vkgif.domain.models.Data
+import com.example.vkgif.util.Constants.SEARCH_RESULT
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +21,9 @@ class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
     private val binding get() = searchBinding!!
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchAdapter
+
     private var currentOffset = 0
+    private var currentSearch = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +33,8 @@ class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
         return binding.root
     }
 
+    /*В данном методе настраивается  RecyclerView и SearchAdapter для отображения результатов поиска гифок.
+    Затем на него навешивается OnScrollListener, который обновляет текущую страницу при достижении конца списка гифок.*/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -52,21 +57,24 @@ class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
         }
 
         binding.searchButton.setOnClickListener {
-            currentOffset = 0
-            viewModel.getGifsBySearchResult(binding.searchEditText.text.toString(), currentOffset)
+            search()
         }
 
-        binding.nextPage.setOnClickListener {
-            currentOffset += 25
-            viewModel.getGifsBySearchResult(binding.searchEditText.text.toString(), currentOffset)
+        if (SEARCH_RESULT != "") {
+            binding.searchEditText.setText(SEARCH_RESULT)
+            search()
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        searchBinding = null
+    /*Функция, которая запускает поиск гифок на основе пользовательского запроса*/
+    private fun search() {
+        currentOffset = 0
+        currentSearch = binding.searchEditText.text.toString()
+        SEARCH_RESULT = currentSearch
+        viewModel.getGifsBySearchResult(currentSearch, currentOffset)
     }
-
+    /*Функция обработки нажатия на конкретный элемент и перенаправление пользователя
+    * на другой фрагмент с подробной информацией*/
     override fun onItemClick(data: Data) {
         try {
             val direction = SearchFragmentDirections.actionSearchFragmentToDetailFragment(data)
@@ -74,5 +82,10 @@ class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
         } catch (e: Exception) {
             Log.e("SearchFragment", "Error navigating to DetailFragment: ${e.message}" , e)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        searchBinding = null
     }
 }

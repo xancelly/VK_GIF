@@ -24,6 +24,7 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         detailBinding = FragmentDetailBinding.inflate(inflater, container, false)
+        //Обработка события при нажатии кнопки "Назад" на телефоне, после чего идёт перенаправление на SearchFragment
         val callback = object: OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val direction = DetailFragmentDirections.actionDetailFragmentToSearchFragment()
@@ -41,6 +42,7 @@ class DetailFragment : Fragment() {
         getDataFromArgs()
     }
 
+    //Функция получения данных из аргументов, переданных из другого фрагмента
     private fun getDataFromArgs() {
         binding.apply {
             Glide.with(binding.root)

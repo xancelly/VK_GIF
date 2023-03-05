@@ -15,12 +15,18 @@ import javax.inject.Inject
 class SearchViewModel
 @Inject
 constructor(private val giphyRepository: GiphyRepository): ViewModel() {
+    //Поле, которое хранит последний запрос на поиск
     private var lastSearchQuery: String? = null
+    //Поле, которое используется для хранения ответа от сервера Giphy
     private val searchResponse = MutableLiveData<GifImage>()
 
     val search: LiveData<GifImage>
         get() = searchResponse
 
+    /*Функция, которая загружает список GIF из репозитория и обновляет значения в LiveData.
+    * Если запрос является дубликатом последнего, функция загружает дополнительные данные и
+    * объединяет их с текущими данными. Если запрос не является дубликатом последнего,
+    * функция выполняет новый запрос и обновляет значения LiveData. */
     private fun getGifsBySearch(search: String, offset: Int) = viewModelScope.launch {
         if (lastSearchQuery == search) {
             val currentGifs = searchResponse.value

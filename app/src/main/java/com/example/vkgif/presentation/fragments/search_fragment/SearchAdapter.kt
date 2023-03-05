@@ -12,12 +12,18 @@ import com.example.vkgif.databinding.GifItemBinding
 import com.example.vkgif.domain.models.Data
 
 class SearchAdapter(private val clickListener: OnItemClickListener): RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
+    /*Интерфейс, определяющий функцию onItemClick,
+    которая вызывается при щелчке на элементе списка.*/
     interface OnItemClickListener {
         fun onItemClick(data: Data)
     }
+    /*Класс используется для хранения ссылки на представление элемента списка,
+    чтобы можно было быстро получать доступ к нему при прокрутке списка.*/
     class SearchViewHolder(val binding: GifItemBinding):
         RecyclerView.ViewHolder(binding.root)
 
+    /*Поле используется для сравнения элементов списка и определения того,
+    должен ли RecyclerView обновить элемент списка или нет.*/
     private val diffCallback = object: DiffUtil.ItemCallback<Data>() {
         override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
             return oldItem.id == newItem.id
@@ -29,14 +35,17 @@ class SearchAdapter(private val clickListener: OnItemClickListener): RecyclerVie
 
     }
 
+    /* Экземпляр AsyncListDiffer, который используется для хранения списка элементов.*/
     private val differ = AsyncListDiffer(this, diffCallback)
 
+    /*Свойство, которое используется для установки и получения списка элементов.*/
     var gifList: List<Data>
         get() = differ.currentList
         set(value) {
             differ.submitList(value)
         }
 
+    /*Функция, которая вызывается, когда RecyclerView нуждается в новом экземпляре SearchViewHolder.*/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder(
             GifItemBinding.inflate(
@@ -44,9 +53,12 @@ class SearchAdapter(private val clickListener: OnItemClickListener): RecyclerVie
             )
         )
     }
-
+   /* Функция, которая возвращает количество элементов в списке.*/
     override fun getItemCount(): Int = gifList.size
 
+    /*Функция, которая вызывается, когда RecyclerView хочет отобразить элемент списка в конкретной позиции.
+    * Мы получаем текущий элемент списка из gifList, используя позицию, и отображаем его с помощью Glide,
+    * затем устанавливаем слушатель кликов на элемент, используя OnItemClickListener.*/
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         val currentData = gifList[position]
         Glide.with(holder.itemView.context)
