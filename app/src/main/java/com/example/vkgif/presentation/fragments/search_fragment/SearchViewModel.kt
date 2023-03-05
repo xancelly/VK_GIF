@@ -27,7 +27,7 @@ constructor(private val giphyRepository: GiphyRepository): ViewModel() {
             currentGifs?.let {
                 val newData = giphyRepository.getGifBySearch(search = search, offset = offset).body()?.data
                 newData?.let {
-                    val updatedData = it + currentGifs.data
+                    val updatedData = currentGifs?.data?.plus(it) ?: it
                     searchResponse.postValue(currentGifs.copy(data = updatedData))
                 }
             }

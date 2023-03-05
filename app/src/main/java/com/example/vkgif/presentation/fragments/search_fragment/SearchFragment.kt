@@ -1,17 +1,14 @@
 package com.example.vkgif.presentation.fragments.search_fragment
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.vkgif.R
+import androidx.recyclerview.widget.RecyclerView
 import com.example.vkgif.databinding.FragmentSearchBinding
 import com.example.vkgif.domain.models.Data
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +36,15 @@ class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
         searchAdapter = SearchAdapter(this)
         binding.gifsRecyclerView.apply {
             adapter = searchAdapter
+            addOnScrollListener(object: RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (!recyclerView.canScrollVertically(1)) {
+                        currentOffset += 25
+                        viewModel.getGifsBySearchResult(binding.searchEditText.text.toString(), currentOffset)
+                    }
+                }
+            })
         }
 
         viewModel.search.observe(viewLifecycleOwner) { result ->
